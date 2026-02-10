@@ -12,6 +12,32 @@ Takes long transcripts (recordings, conversations, meeting notes) and extracts:
 
 **Learns your writing style** from your published content, so output matches your voice and platform conventions.
 
+## Why This Exists
+
+Every conversation, recording, or brainstorming session contains flashes of insight—ideas that only exist in that moment. Most of these insights vanish within hours:
+
+- **Not captured**: We forget the best parts of our own conversations
+- **Captured but buried**: Saved in notes no one will ever read again
+- **Kept private**: Hidden insights that could help others facing similar challenges
+
+This is a triple loss:
+
+1. **Personal loss**: Your best thinking disappears
+2. **Network loss**: People who could benefit never see it
+3. **Influence loss**: Hidden knowledge doesn't build reputation
+
+This skill solves all three:
+- **Captures** tacit knowledge from recordings before it's lost
+- **Transforms** raw thoughts into shareable, polished content
+- **Amplifies** your ideas to reach the people who need them
+
+**The deeper why**: Your conversations contain insights worth 100x more than most content online. But insights locked in your head (or buried in transcripts) create zero value. By turning recordings into shareable posts:
+- You preserve hard-won knowledge
+- Your network gains access to high-signal information
+- You build a public track record of quality thinking
+
+Sharing isn't just about "building influence"—it's about making your implicit knowledge explicit, so it can compound.
+
 ## Key Features
 
 - **Style learning**: Analyzes 2-5 reference posts to match your tone, structure, and formatting

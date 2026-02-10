@@ -1,4 +1,4 @@
-# Transcript to Social Content Generator
+# Turn Recordings into Posts
 
 A Claude Code skill that transforms raw transcripts, conversations, and notes into ready-to-publish social media posts.
 

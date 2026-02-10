@@ -1,6 +1,6 @@
 # Transcript to Social Content Generator
 
-A Claude Code skill that transforms raw transcripts, conversations, and notes into 4-8 ready-to-publish Jike (即刻) posts.
+A Claude Code skill that transforms raw transcripts, conversations, and notes into ready-to-publish social media posts.
 
 ## What It Does
 
@@ -10,13 +10,14 @@ Takes long transcripts (recordings, conversations, meeting notes) and extracts:
 - Standalone observations
 - Deep analysis posts
 
-Optimized for Chinese social media platform Jike, with strict quality filtering and fact-checking built in.
+**Learns your writing style** from your published content, so output matches your voice and platform conventions.
 
 ## Key Features
 
+- **Style learning**: Analyzes 2-5 reference posts to match your tone, structure, and formatting
 - **Smart extraction**: Analyzes content at 4 levels (short insights, observations, medium posts, deep analysis)
 - **Rigorous fact-checking**: Verifies all proper nouns, data points, and logical connections
-- **Jike-optimized**: Invisible structure, natural flow, short paragraphs, mobile-first reading
+- **Mobile-optimized**: Short paragraphs, natural flow, compelling openings
 - **Quality over quantity**: Strict 4 Iron Rules for insights (Independence, Completeness, Impact, Non-duplication)
 - **Long transcript handling**: Uses index-retrieval strategy for 3000+ line transcripts to prevent fabrication
 
@@ -28,10 +29,24 @@ Optimized for Chinese social media platform Jike, with strict quality filtering 
 
 The skill will:
 1. Ask for transcript file path (or you can provide it directly)
-2. Optionally ask for reference style (2-5 existing posts)
-3. Analyze transcript and build topic index
-4. Extract and verify all content
-5. Output all qualified content in clean, ready-to-publish format
+2. **Ask for reference style** (2-5 existing posts you've published) - HIGHLY RECOMMENDED
+3. Analyze your style from references (structure, tone, formatting, platform conventions)
+4. Build topic index for long transcripts
+5. Extract and verify all content
+6. Output all qualified content in your style, ready to publish
+
+## Why Reference Content Matters
+
+Providing 2-5 examples of your published content helps the skill:
+- Match your paragraph length and structure
+- Mirror your use of formatting (bold, lists, emojis)
+- Adopt your opening style (direct, data-driven, storytelling, provocative)
+- Match your tone (casual/formal, sharp/moderate)
+- Understand your platform conventions (Twitter threads, LinkedIn posts, blog-style, etc.)
+
+**Without references**: Skill uses neutral professional tone with clear structure.
+
+**With references**: Output sounds like you wrote it yourself.
 
 ## Architecture
 
@@ -42,17 +57,17 @@ The skill will:
 ## Quality Standards
 
 ### The 4 Iron Rules for Insights
-1. **Independence**: Can be understood by strangers (max 1-2 sentences context)
+1. **Independence**: Can be understood without context (max 1-2 sentences setup)
 2. **Completeness**: Full meaning, not half a sentence
 3. **Impact**: Data/contrast/counter-intuitive/emotional resonance
-4. **Non-duplication**: Not already covered in a long post
+4. **Non-duplication**: Not already covered in a longer post
 
 ### Writing Principles
-- 删无可删 (Delete until impossible) - Every sentence must advance the logic
-- 即刻 ≠ 公众号 - Structure must be invisible, not forced into sections
-- No teaching tone - Provide frameworks, don't preach
-- No anxiety farming - Provide insights, don't manufacture panic
-- Have attitude - Make clear judgments, don't hedge excessively
+- **Delete until impossible** - Every sentence must advance the logic
+- **Match user's style** - Learn from reference content if provided
+- **No teaching tone** - Provide frameworks, don't preach
+- **No anxiety farming** - Provide insights, don't manufacture panic
+- **Have attitude** - Make clear judgments, don't hedge excessively
 
 ## File Structure
 
@@ -74,8 +89,8 @@ transcript-to-content/
 
 ## Example Output
 
-From a 5500-line transcript about AI companion products, extracted:
-- 12 complete posts covering strategy, development, monetization
+From a 5500-line transcript about AI companion products:
+- Extracted 12 complete posts covering strategy, development, monetization
 - Each post fact-checked against original transcript
 - All data points verified (names, numbers, logical connections)
 - Ready to publish with no additional editing
@@ -88,10 +103,34 @@ This skill is designed for Claude Code. Place in your skills directory:
 ~/.claude/skills/transcript-to-content/
 ```
 
+Or install via GitHub:
+
+```bash
+# Coming soon: one-command installation
+```
+
+## Use Cases
+
+- **Podcast recordings** → Twitter threads, LinkedIn posts, blog posts
+- **Meeting notes** → Shareable insights, team updates
+- **Interview transcripts** → Quotable insights, key takeaways
+- **Brainstorming sessions** → Polished ideas, strategic posts
+- **Lecture recordings** → Educational content, explainer posts
+
+## Platform Agnostic
+
+Works with any social media platform or content format:
+- Twitter/X (threads, standalone tweets)
+- LinkedIn (professional posts)
+- Blog posts (long-form analysis)
+- Newsletter content
+- Internal team communications
+- Any format where you want to match your existing style
+
 ## License
 
 MIT
 
 ## Author
 
-Created for transforming long-form recordings into high-quality social media content.
+Created for transforming long-form recordings into high-quality social media content that sounds like you.

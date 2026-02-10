@@ -1,11 +1,11 @@
 ---
 name: transcript-to-content
-description: Transform transcripts, conversations, or raw notes into batch social media content. Currently optimized for Chinese Jike (即刻) platform format. Handles transcripts of any length (tested up to 5500+ lines / 90+ min). Use when user: (1) provides transcript/conversation/recording and wants social content, (2) asks to "整理录音/对话/笔记成内容", (3) mentions generating posts from recordings/notes, (4) needs multiple publishable pieces from single source. Outputs 2-15 ready-to-publish pieces depending on content richness (insights 20-150 chars, posts 300-1000 chars).
+description: Transform transcripts, conversations, or raw notes into shareable social media content. Learns style from user's published content. Handles transcripts of any length (tested up to 5500+ lines / 90+ min). Use when user: (1) provides transcript/conversation/recording and wants social content, (2) asks to "turn recording/notes into posts", (3) mentions generating content from recordings/notes, (4) needs multiple publishable pieces from single source. Outputs 2-15 ready-to-publish pieces depending on content richness (short insights 20-150 chars, posts 300-1000 chars).
 ---
 
 # Transcript to Social Content Generator
 
-Transform raw content (transcripts, conversations, notes) into 4-8 ready-to-publish Jike posts.
+Transform raw content (transcripts, conversations, notes) into ready-to-publish social media posts.
 
 ## Execution Workflow
 
@@ -13,9 +13,9 @@ Transform raw content (transcripts, conversations, notes) into 4-8 ready-to-publ
 
 Accept two inputs:
 - **Required**: Raw content (transcript, conversation, notes)
-- **Optional**: Reference style (2-5 existing Jike posts from user)
+- **Optional but HIGHLY RECOMMENDED**: Reference style (2-5 existing posts from user)
 
-If user provides reference style, analyze and extract:
+**If user provides reference content, analyze and extract:**
 - Information density (data-heavy / case-heavy / opinion-heavy)
 - Language style (formal / casual / sharp / moderate)
 - **Structure observation** (CRITICAL):
@@ -23,7 +23,13 @@ If user provides reference style, analyze and extract:
   - Does it use numbered lists (1. 2. 3.)?
   - Average paragraph length (1-2 lines / 3-4 lines / longer)?
   - Opening style (direct statement / data / story / question)?
+  - Use of emojis, formatting, links?
 - Attitude markers (explicit judgment / emotional words / teaching tone)
+- Platform conventions (Twitter threads, LinkedIn posts, blog-style, etc.)
+
+**If no reference provided:**
+- Ask user: "Do you have 2-5 examples of content you've published that you like? This helps me match your style."
+- If still no reference, use neutral professional tone with clear structure
 
 ### Step 2: Extract All Possible Content
 
@@ -48,7 +54,7 @@ When dealing with very long transcripts, you MUST use a rigorous verification wo
 3. **Common error patterns to avoid:**
    - **Fabricating data**: Don't add numbers/metrics that "feel right" but aren't in transcript
    - **False connections**: Don't connect two unrelated sections just because they seem related
-   - **Over-generalization**: Don't change "最开始" to "所有" or "部分" to "全部"
+   - **Over-generalization**: Don't change specific statements to broad generalizations
    - **Misunderstanding context**: Don't create A→B logic when transcript only contains A and B separately
 4. **Verification checklist for each piece:**
    - [ ] Grep searched the relevant section
@@ -59,10 +65,10 @@ When dealing with very long transcripts, you MUST use a rigorous verification wo
 
 **Example of WRONG process:**
 - Read full 5000-line transcript → Remember key points → Write all content from memory
-- Result: Fabricated "Google Cloud 100刀/天", wrongly connected "30倍产能" with "脸刷到40岁"
+- Result: Fabricated data, wrongly connected points, over-generalizations
 
 **Example of CORRECT process:**
-- Identify topic: "AI开发效率" → Grep for "30.*窗口|Claude.*账号" → Read lines 500-550 → Verify exact setup → Write content → Move to next topic
+- Identify topic → Grep for relevant keywords → Read lines with context → Verify exact wording → Write content → Move to next topic
 
 If uncertain about ANY detail, use Grep to re-verify before writing. Never guess or extrapolate.
 
@@ -101,7 +107,6 @@ Based on first principles (memory is lossy compression, verification must be rea
     - **Option B**: Quick scan with Grep to identify all major topics/keywords
       - Grep for high-level keywords to map topic distribution
       - Create sparse index: Topic → Keywords → Approximate line ranges
-      - Example: "AI开发效率" → "Claude|窗口|账号" → lines 500-600, 1200-1300
   - **Pass 2 - Extract and verify immediately (per topic):**
     - For each topic in index:
       1. Grep search relevant keywords
@@ -112,7 +117,7 @@ Based on first principles (memory is lossy compression, verification must be rea
 - **Why**: This is an index-retrieval problem, not full-text processing. Memory is unreliable beyond 3000 lines.
 - **Risk**: High fabrication risk if you deviate from this workflow
 
-**Key principle**: 记忆是有损压缩，验证必须实时进行 (Memory is lossy compression, verification must be real-time)
+**Key principle**: Memory is lossy compression, verification must be real-time
 
 ### Step 3: Deduplicate and Prioritize
 
@@ -122,10 +127,10 @@ Based on first principles (memory is lossy compression, verification must be rea
 - Same material can appear in different posts, but with different roles
 
 **Prioritization criteria:**
-- Hot topics (AI/startup/workplace) > niche topics
 - Counter-intuitive insights > common observations
+- Specific data with comparisons > abstract descriptions
 - Complete material > needs supplementing
-- Specific data comparisons > abstract descriptions
+- Universal insights > niche/insider-only content
 
 **Determine output quantity based on content richness:**
 - Rich content (90+ min, multiple topics): 10-15 total posts
@@ -142,11 +147,11 @@ Based on first principles (memory is lossy compression, verification must be rea
 - Better to extract comprehensively upfront than in multiple rounds
 
 **Output structure:**
-- **High-priority content**: Output as "长文" - most impactful, counter-intuitive, or hot topics
-- **Secondary content**: Output as "其他可发布内容" - still quality-checked but slightly lower priority/impact
-- **IMPORTANT**: Write FULL content for secondary posts, not just outline - let user decide what to publish
+- Sort ALL content by quality (highest first)
+- Write FULL content for all posts, not just outlines
+- Let user decide what to publish
 
-**Insights (金句) quantity is NOT predetermined:**
+**Insights (short standalone pieces) quantity is NOT predetermined:**
 - Apply strict 4 Iron Rules filtering to ALL candidates
 - Output as many as pass the standard (could be 0, 1, 5, or 10)
 - DO NOT artificially limit quantity if quality is met
@@ -161,24 +166,24 @@ If content is too personal or lacks universal value, tell user honestly.
 
 1. **Choose appropriate length** based on topic complexity
 
-2. **Jike Platform Characteristics (CRITICAL - 即刻不是公众号):**
-   - Feed流阅读，不是深度阅读 - first 3 lines determine if user expands
-   - Structure must be INVISIBLE - logic flows naturally, not forced into sections
-   - ⚠️ **AVOID over-structuring:**
-     - NO excessive bold subheadings (**小标题**)
-     - NO numbered lists (1. 2. 3.) unless user's style uses them
-     - NO transition phrases ("接下来", "总结一下", "综上所述")
-   - Short paragraphs - max 3-4 lines per paragraph
-   - **CRITICAL: Add blank line between paragraphs** for better reading experience on Jike
-   - Data must grab attention in first few lines
+2. **Match user's style from reference content:**
+   - If user provided reference posts, mirror their:
+     - Paragraph length and structure
+     - Use of formatting (bold, lists, emojis)
+     - Opening style (direct, data-driven, storytelling, provocative)
+     - Tone (casual/formal, sharp/moderate)
+   - If no reference provided, use these defaults:
+     - Mobile-first: first 2-3 lines determine if reader continues
+     - Short paragraphs (2-4 lines max)
+     - Blank line between paragraphs for readability
+     - Lead with most compelling point or data
 
-3. **"删无可删" Execution (Delete Until Impossible):**
+3. **"Delete Until Impossible" Execution:**
 
    **First pass - Delete structural fluff:**
-   - Delete bold formatting on subheadings (unless user's style uses them)
-   - Delete numbered list markers
+   - Delete unnecessary formatting (unless user's style uses it)
    - Delete transition sentences between sections
-   - Delete summary conclusions at the end
+   - Delete summary conclusions that just repeat what was said
 
    **Second pass - Test each sentence:**
    - Ask: "If I delete this sentence, does the logic break?"
@@ -194,17 +199,16 @@ If content is too personal or lacks universal value, tell user honestly.
 4. **Follow core principles:**
    - One theme per piece - don't try to cover everything
    - Logic > case studies - use cases only as evidence
-   - 1000 character max (Jike platform limit)
    - Match user's style if reference provided
-   - Have attitude - make clear judgments, don't hedge
+   - Have attitude - make clear judgments, don't hedge excessively
 
 5. **For short insights (STRICT FILTERING):**
    - **4 Iron Rules - ALL must pass:**
-     - ✅ Independence: Stranger can understand (max 1-2 sentences context)
+     - ✅ Independence: Can be understood without context (max 1-2 sentences setup)
      - ✅ Completeness: Full meaning, not half a sentence
      - ✅ Impact: Data/contrast/counter-intuitive/emotional resonance
-     - ✅ Non-duplication: Not already in a long post
-   - **宁缺毋滥原则:**
+     - ✅ Non-duplication: Not already covered in a longer post
+   - **Quality over quantity principle:**
      - Apply standard strictly to ALL candidates
      - Output every insight that passes (no upper limit)
      - Output zero if none pass (no lower limit)
@@ -219,10 +223,10 @@ If content is too personal or lacks universal value, tell user honestly.
    - Transcripts often contain errors (mishearing, wrong names, incorrect data)
    - **For ALL proper nouns (people names, company names, product names):**
      - Search to verify correct spelling and accuracy
-     - Example: "墨子号" might be misheard, verify the actual person's name
+     - Example: Name might be misheard, verify the actual person's name
      - Example: "Luki" vs "Looki" - check correct product name
-   - **For ALL data points (revenue, valuation, dates):**
-     - If transcript says "Plaud 3亿美金", search to confirm
+   - **For ALL data points (revenue, valuation, dates, percentages):**
+     - If transcript says surprising numbers, search to confirm
      - If uncertain, use hedge language or remove the data
    - **When to search:**
      - Any name that seems unusual or might be misheard
@@ -230,7 +234,7 @@ If content is too personal or lacks universal value, tell user honestly.
      - Any product/company you're not 100% certain about
    - **⚠️ For long transcripts, verify EVERYTHING:**
      - Don't assume you remember correctly - Grep and re-read the section
-     - Even seemingly "obvious" facts should be verified (e.g., "小龙虾1亿美金收购" - is this actually in the transcript?)
+     - Even seemingly "obvious" facts should be verified
      - Check logical connections - are two points really related, or did you connect them in your mind?
    - Better to remove questionable details than publish incorrect information
 
@@ -239,66 +243,66 @@ If content is too personal or lacks universal value, tell user honestly.
 Output format:
 
 ```
-从你的录音稿中提取了 X 条可发布内容，按质量排序：
+Extracted X pieces of shareable content from your transcript, sorted by quality:
 
 ---
 
-## 内容 1 | 标题
+## Content 1 | Title
 
-[完整内容 - 干净可发布]
-
----
-
-## 内容 2 | 标题
-
-[完整内容]
+[Complete content - ready to publish]
 
 ---
 
-## 内容 3 | 标题
+## Content 2 | Title
 
-[完整内容]
-
----
-
-## 内容 4 | 标题
-
-[完整内容]
+[Complete content]
 
 ---
 
-[继续输出所有内容...]
+## Content 3 | Title
+
+[Complete content]
+
+---
+
+## Content 4 | Title
+
+[Complete content]
+
+---
+
+[Continue with all content...]
 ```
 
 **IMPORTANT:**
-- NO category headers (【长文】/【金句】/【其他可发布内容】)
-- Sort ALL content by quality (highest first), regardless of type (long post / insight / secondary)
+- NO category headers or labels
+- Sort ALL content by quality (highest first), regardless of type or length
 - Clean markdown only - each piece separated by `---`
-- Each piece header format: `## 内容 X | 标题` (concise title summarizing the topic)
-- DO NOT include meta-information (priority, engagement, recommendations)
+- Each piece header format: `## Content X | Title` (concise title summarizing the topic)
+- DO NOT include meta-information (priority, engagement predictions, recommendations)
 - Output should be CLEAN and READY-TO-PUBLISH
 
-After output, ask: "满意吗？需要调整哪些内容？"
+After output, ask: "How do these look? Need any adjustments?"
 
 ## Common Adjustments
 
 If user says:
 - "Too long" → Condense to target length
-- "Can't understand the insight" → Add simple background
-- "Wrong style" → Adjust tone
-- "Want more" → Write expandable topics
-- "Not enough insights" → Find more (but maintain quality standards)
+- "Can't understand this" → Add simple background context
+- "Wrong style/tone" → Adjust to match their preference
+- "Want more" → Extract additional angles from transcript
+- "Not enough short insights" → Find more (but maintain quality standards)
 
 ## Key Principles
 
-1. **Always batch output** - Write all qualified content upfront (including secondary posts), don't ask which to write first
+1. **Always batch output** - Write all qualified content upfront, don't ask which to write first
 2. **Quality > quantity** - Don't force output if material is weak
-3. **Clean output only** - No meta-information (priority stars, recommendations, predictions) in final output
+3. **Clean output only** - No meta-information in final output
 4. **Fact check everything** - Verify names, data, and facts before outputting (transcripts have errors)
-5. **即刻 ≠ 公众号** - Structure must be invisible, logic flows naturally, avoid over-formatting
-6. **Strict insight filtering** - 宁缺毋滥, quality standard is fixed, quantity is natural result (see [golden-sentence-standards.md](references/golden-sentence-standards.md))
-7. **删无可删** - Every sentence must advance the logic, delete everything else
-8. **No teaching tone** - Provide frameworks, don't preach with "建议/应该"
+5. **Match user's style** - Learn from reference content if provided
+6. **Strict insight filtering** - Quality standard is fixed, quantity is natural result (see [golden-sentence-standards.md](references/golden-sentence-standards.md))
+7. **Delete until impossible** - Every sentence must advance the logic
+8. **No teaching tone** - Provide frameworks, don't preach
 9. **No anxiety farming** - Provide insights, don't manufacture panic
 10. **Have attitude** - Make clear judgments, don't hedge excessively
 
@@ -313,9 +317,9 @@ When in doubt about:
 **Reading files with special characters in filename:**
 - If filename contains quotes ("), colons (:), or other special characters
 - Use bash workaround: `cd "directory" && cat "$(ls | grep 'partial_name' | head -1)"`
-- Example: File named `AI陪伴产品战略：借力"酒馆"生态.md`
+- Example: File named `AI Product Strategy：Quotes"Example.md`
   - Don't use Read tool directly with full path (will fail)
-  - Use: `cd "/path/to/dir/" && cat "$(ls | grep 'AI陪伴' | head -1)"`
+  - Use: `cd "/path/to/dir/" && cat "$(ls | grep 'AI Product' | head -1)"`
 
 **Handling large output files:**
 - If Bash output exceeds ~100KB, it will be saved to persisted-output file
